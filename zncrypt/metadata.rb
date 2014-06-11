@@ -5,9 +5,13 @@ license          "Apache 2.0"
 description      "Installs/Configures zNcrypt 3.x"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.4.1"
-%w{ apt yum openssl java }.each do |cb|
+%w{ apt openssl java }.each do |cb|
   depends cb
 end
+
+depends 'yum', '~> 3.2'
+depends 'yum-repoforge'
+
 %w{ debian ubuntu centos redhat fedora }.each do |os|
   supports os
 end
