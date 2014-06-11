@@ -105,6 +105,13 @@ def register_args(resource)
   end
 end
 
+def server_args(resource)
+  if resource.verify_ssl
+    "--server=#{resource.server}"
+  else
+    "--server=#{resource.server} --skip-ssl-check"
+  end
+end
 
 action :activate do
   if ::File.exists?('/etc/zncrypt/control') && zncrypt_registered?
@@ -116,7 +123,7 @@ action :activate do
 
     # the following make use of printf to avoid logging the passphrase
     register_cmd = Mixlib::ShellOut.new(
-      "zncrypt register #{register_args(new_resource)}",
+      "zncrypt register #{register_args(new_resource)} #{server_args(new_resource)}",
       :input => register_auth_string(new_resource),
       :log_level => :debug
     )
@@ -125,7 +132,7 @@ action :activate do
 
     if new_resource.regmode == :classic
       activate_cmd = Mixlib::ShellOut.new(
-        "zncrypt request-activation --contact=#{new_resource.admin_email}",
+        "zncrypt request-activation --contact=#{new_resource.admin_email} #{server_args(new_resource)}",
         :input => @activate_auth_string,
         :log_level => :debug
         )

@@ -27,4 +27,6 @@ attribute :passphrase,    :kind_of => String, :required => true
 attribute :salt,          :kind_of => [String,NilClass], :default => nil
 attribute :regmode,       :equal_to => [:classic, :regauth], :default => :classic
 attribute :orgname,       :kind_of => String
-attribute :authcode,      :kind_of=> String
+attribute :authcode,      :kind_of => String
+attribute :server,        :kind_of => String, :default => 'https://ztrustee.gazzang.com'
+attribute :verify_ssl,    :kind_of => [TrueClass, FalseClass], :default => true
